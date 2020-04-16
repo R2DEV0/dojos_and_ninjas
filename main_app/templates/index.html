@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+        body{
+            width: 1000px;
+            margin-left: 350px;
+        }
+
+        #dojo_side{
+            display: inline-block;
+            border: 1px solid black;
+            width: 430px;
+            height: 200px;
+            padding: 5px 10px 20px 5px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #ninja_side{
+            display: inline-block;
+            width: 430px;
+            height: 200px;
+            border: 1px solid black;
+            padding: 5px 10px 20px 5px;
+            vertical-align: top;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #all_dojos{
+            text-align: center;
+            margin-left: 20px;
+            width: 860px;
+            height: 450px;
+            overflow: auto;
+            border: 1px solid black;
+            background-color: honeydew;
+        }
+
+        #name{
+            margin-bottom: 5px;
+        }
+
+        #city{
+            margin-bottom: 5px;
+        }
+
+        #state{
+            margin-bottom: 5px;
+        }
+
+        #first_name{
+            margin-bottom: 5px;
+        }
+
+        #last_name{
+            margin-bottom: 5px;
+        }
+
+        #dojo{
+            margin-bottom: 5px;
+        }
+
+        button{
+            width: 100px;
+            margin-top: 10px;
+            height: 28px;
+            background-color: aquamarine;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        #all_dojos_title{
+            margin: 30px auto 0px 240px;
+            
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div id=dojo_side>
+
+        <h1>Add a Dojo</h1>
+
+        <form action="/submit_dojo", method=POST>
+            {% csrf_token %}
+            <label for="name">Name:</label>
+            <input type="text" name='name' id='name'> <br>
+            <label for="city">City:</label>
+            <input type="text" name="city" id="city"> <br>
+            <label for="state">State:</label>
+            <input type="text" name="state" id="state"> <br>
+
+            <button>Add</button>
+        </form>
+
+    </div>
+
+    <div id=ninja_side>
+
+        <h1>Add a Ninja</h1>
+
+        <form action="/submit_ninja" method=POST>
+            {% csrf_token %}
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" id="first_name"> <br>
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" id="last_name"> <br>
+            <label for="dojo">Dojo:</label>
+            <select name="dojo" id="dojo">
+                                        {% for dojo in dojo %}
+                <option value="{{dojo.id}}">{{ dojo.name }}</option>
+                                            {% endfor %}
+                
+            </select> <br>
+            <button>Add</button>
+        </form>
+
+    </div>
+
+
+    <h1 id='all_dojos_title'>All the Dojos and their Ninjas</h1>
+
+    <div id='all_dojos'>
+
+
+        {% for dojo in dojo %}
+        <h2>{{dojo.name}}</h2>
+
+        {% for ninja in dojo.dojos.all %}
+        
+        <h4>{{ninja.first_name}}</h4>
+
+        {%endfor%}
+        {%endfor%}
+    </div>
+
+
+</body>
+
+</html>
